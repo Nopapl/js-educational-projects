@@ -1,0 +1,70 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #ffffff;
+}
+
+th {
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    max-width: 1800px;
+    padding: 30px 50px;
+}
+
+.add-form {
+    min-width: 400px;
+}
+
+.add-button {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.table {
+    margin-right: 100px;
+}
+
+.col-header {
+    position: relative;
+    cursor: pointer;
+}
+
+th.sorted[data-order="-1"]::after {
+    position: absolute;
+    right: 8px;
+	content: "▼"
+}
+
+th.sorted[data-order="1"]::after {
+    position: absolute;
+    right: 8px;
+	content: "▲"
+}
+
+.table>:not(caption)>*>* {
+    border-right-width: 1px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.error-input {
+    position: absolute;
+    padding: 0 10px;
+    /* top: 50%; */
+    left: -80%;
+    background-color: red;
+}
+
+.error-input--showed {
+    display: block;
+}

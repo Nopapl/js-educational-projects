@@ -1,0 +1,96 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    background-color: #e3e3e3;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 500px;
+    margin: 150px auto 0;
+}
+
+.wrapper-disabled {
+    pointer-events: none;
+}
+
+.wrapper-end-game {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.card {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    margin: 0 10px 10px 0;
+    justify-content: center;
+    align-items: center;
+    /* color: rgba(255, 127, 80, 0); */
+    font-size: 60px;
+    background-image: url('../img/card-back.jpg');
+    background-size: contain;
+    cursor: pointer;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: transform 1s, color 1s, opacity 0.5s;
+}
+
+.card-show {
+    transform: scaleX(0);
+}
+
+.card-show-text {
+    color: rgba(255, 127, 80, 1);
+}
+
+.card-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.active-card {
+    outline: 2px solid red;
+}
+
+.btn {
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #73ff00c7;
+    border-radius: 5px;
+    border: 2px solid #000000;
+    cursor: pointer;
+    transition: border 0.3s;
+}
+
+.btn:hover {
+    border: 2px solid #878787;
+}
+
+.input {
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.timer {
+    padding: 20px;
+    font-size: 40px;
+    background-color: #000000;
+    max-width: 450px;
+    height: 70px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
