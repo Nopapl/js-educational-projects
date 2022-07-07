@@ -11,8 +11,13 @@ th {
     padding: 0;
 }
 
+tbody, td, tfoot, th, thead, tr {
+    border-width: 1px;
+}
+
 .container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
     max-width: 1800px;
@@ -29,7 +34,7 @@ th {
 }
 
 .table {
-    margin-right: 100px;
+    flex-basis: 70%;
 }
 
 .col-header {
@@ -59,12 +64,63 @@ th.sorted[data-order="1"]::after {
 
 .error-input {
     position: absolute;
-    padding: 0 10px;
-    /* top: 50%; */
-    left: -80%;
+    display: flex;
     background-color: red;
+    border-radius: 15px;
+    padding-right: 10px;
+    height: 23px;
+    width: 23px;
+    top: 50%;
+    left: -7%;
+    font-size: 13px;
+    user-select: none;
+    overflow: hidden;
+    transition: all .5s ease-in-out;
+}
+
+.error-ico {
+    padding: 0px 8px;
+    margin-right: 20px;
+    font-size: 16px;
+    background-color: red;
+    border-radius: 15px;
+    font-weight: 900;
+    cursor: default;
+}
+
+.error-input:hover {
+    width: 100%;
+}
+
+.error-text--active {
+    width: 100%;
 }
 
 .error-input--showed {
     display: block;
+}
+
+.no-students {
+    margin: auto auto;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.filters-header {
+    width: 100%;
+}
+
+.filters > input {
+    margin-right: 20px;
+    flex-basis: 20%;
+}
+
+.row__none {
+    display: none;
 }
