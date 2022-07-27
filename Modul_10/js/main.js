@@ -5,7 +5,66 @@
   const addBtn = document.querySelector('.add-button');
 
 
-  let students = [];
+  let students = [
+    {
+      name: 'Олег',
+      surname: 'Пропусков',
+      patronymic: 'Евгеньевич',
+      dob: new Date('2000.12.22'),
+      startStudy: '2020',
+      faculty: 'Физика',
+    },
+    {
+      name: 'Мария',
+      surname: 'Малинова',
+      patronymic: 'Борисовна',
+      dob: new Date('1996.09.12'),
+      startStudy: '2019',
+      faculty: 'Математика',
+    },
+    {
+      name: 'Евгений',
+      surname: 'Захаров',
+      patronymic: 'Сергеевич',
+      dob: new Date('1992.02.05'),
+      startStudy: '2020',
+      faculty: 'Иностранные языки',
+    },
+    {
+      name: 'Андрей',
+      surname: 'Шатов',
+      patronymic: 'Алексеевич',
+      dob: new Date('1993.10.23'),
+      startStudy: '2021',
+      faculty: 'Информатика',
+    },
+    {
+      name: 'Елизавета',
+      surname: 'Жданова',
+      patronymic: 'Денисовна',
+      dob: new Date('1996.07.30'),
+      startStudy: '2019',
+      faculty: 'Биология',
+    },
+    {
+      name: 'Олег',
+      surname: 'Пропусков',
+      patronymic: 'Евгеньевич',
+      dob: new Date('2000.12.22'),
+      startStudy: '2020',
+      faculty: 'Информатика',
+    },
+    {
+      name: 'Елизавета',
+      surname: 'Жданова',
+      patronymic: 'Борисовна',
+      dob: new Date('1996.07.30'),
+      startStudy: '2019',
+      faculty: 'Курника',
+    },
+  ];
+
+  let filteredStudents = [];
 
   function createFilters() { // Add search filters
     const filtersForm = document.createElement('div');
@@ -26,29 +85,72 @@
     nameFilter.placeholder = 'Имя, фамилия или отчество';
     facultyFilter.placeholder = 'Факультет';
     startStudyFilter.placeholder = 'Год начала обучения';
-    endStudyFilter.placeholder = 'Год окончания обучения';
+    endStudyFilter.placeholder = 'Год окончания обучения';    
 
     function addEventFilters(...args) { // Add a filter function for each input
-      args.forEach((input, searchItemIndex) => {
+      args.forEach((input) => {
         input.addEventListener('input', () => {
-          let searchText = new RegExp(input.value, 'i');
-          let flag = false;
 
-          for (let i = 1; i < table.rows.length; i++) {
-            flag = false;
-            if (!table.rows[i].classList.contains('row__none')) {
-              flag = searchText.test(table.rows[i].cells[searchItemIndex].innerHTML);
-              if (!flag) {
-                  table.rows[i].classList.add('row__none');
-              }
+            filteredStudents = [];
+
+          if (input.classList.contains('name-filter')) {
+            if (filteredStudents.length > 0) {
+              filtrationTable(filteredStudents, input, 'name', 'surname', 'patronymic')
+            } else {
+              filtrationTable(students, input, 'name', 'surname', 'patronymic')
             }
-            
-          }
+          } 
+
+          if (input.classList.contains('faculty-filter')) {   
+            if (filteredStudents.length > 0) {
+              filtrationTable(filteredStudents, input, 'faculty')
+            } else {
+              filtrationTable(students, input, 'faculty')
+            }  
+          } 
+
+          if (input.classList.contains('start-study-filter')) {  
+            if (filteredStudents.length > 0) {
+              filtrationTable(filteredStudents, input, 'startStudy')
+            } else {
+              filtrationTable(students, input, 'startStudy')
+            }    
+          } 
+
+          if (input.classList.contains('end-study-filter')) { 
+            if (filteredStudents.length > 0) {
+              filtrationTable(filteredStudents, input, 'startStudy')
+            } else {
+              filtrationTable(students, input, 'startStudy')
+            }  
+          } 
+
+          const tr = document.querySelectorAll('.table-body-row');
+
+          tr.forEach((elem) => elem.parentNode.removeChild(elem));
+          createStunentsList(filteredStudents);
         })
-        searchItemIndex++
       })
     };
 
+
+
+    function filtrationTable(studentsArr, filter, key1, key2, key3) { // Search for a student by the entered filter
+      studentsArr.forEach((student) => {
+        const fullKeys = student[key1] + student[key2] + student[key3];
+        let fullFilterable = fullKeys.replace(/undefinedundefined/i, '').toLowerCase();
+        const x = +fullKeys.replace(/undefinedundefined/i, '').toLowerCase()
+
+        if (isNaN(x) === false) {
+          fullFilterable = x + 4;
+        }
+
+        const fullFilterableString = String(fullFilterable);
+        if (fullFilterableString.indexOf(filter.value.toLowerCase().trim()) !== -1 && filteredStudents.indexOf(student) < 0) {
+          filteredStudents.push(student);
+        }
+      })
+    }
 
     addEventFilters(nameFilter, facultyFilter, startStudyFilter, endStudyFilter);
 
@@ -89,6 +191,8 @@
     const studentFaculty = document.createElement('td');
     const studentDOB = document.createElement('td');
     const studyingTime = document.createElement('td');
+
+    tableRow.classList.add('table-body-row')
 
     const now = new Date(); // Now date
     const course = now.getFullYear() - studentObj.startStudy;
@@ -184,7 +288,7 @@
 
     function validateTextInput(...args) { // Checking text fields for emptiness
       args.forEach((item) => {
-        if (item.value.trim() == '') {
+        if (item.value.trim() == '' || !isNaN(item.value.trim())) {
           errorInput.push(item.name)
         }
       });
@@ -193,26 +297,24 @@
     validateTextInput(name, surname, patronymic, faculty);
 
     function createErrorMsg(text) { // Error message generation
-        const errorInputMsg = document.createElement('div');
-        const errorMsgIco = document.createElement('span');
+        const errorText = document.createElement('span');
+        const errorSelection = document.createElement('div');
 
-        errorInputMsg.classList.add('error-input');
-        errorInputMsg.textContent = text;        
+        errorSelection.classList.add('error-selection');
+        errorText.classList.add('error-text');
+        errorText.textContent = text;
 
-        errorMsgIco.classList.add('error-ico');
-        errorMsgIco.textContent = '!';
-        errorInputMsg.prepend(errorMsgIco);
-
-        setTimeout(() => {
-          errorInputMsg.classList.add('error-text--active')
-        }, 100);
+        errorSelection.append(errorText);
 
         setTimeout(() => {
-          errorInputMsg.classList.remove('error-text--active')
-        }, 2000);
+          errorSelection.classList.add('error-selection--active')      
+        }, 10);
 
+        setTimeout(() => {
+          errorText.classList.add('error-text--active')      
+        }, 300);
         
-        return errorInputMsg;
+        return errorSelection;
     }
 
     if (dob.value.length === 0) {
@@ -243,7 +345,12 @@
     if (errorInput.length !== 0) {
       for (let i = 0; i < errorInput.length; i++) {
         const elem = document.getElementsByName(errorInput[i]);
-        elem[0].parentNode.append(createErrorMsg('Это поле обязательно для заполнения!'))
+        if (!isNaN(elem[0].value) && elem[0].name !== 'dob' && elem[0].name !== 'startStudy' && elem[0].value !== '') {
+          elem[0].parentNode.append(createErrorMsg('В этом поле можно вводить только текст!'));
+        } else {
+          elem[0].parentNode.append(createErrorMsg('Это поле обязательно для заполнения!'));
+
+        }
       }
       validateIs = false;
     } // Input validation
@@ -262,7 +369,7 @@
 
   addBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    const errors = document.querySelectorAll('.error-input');
+    const errors = document.querySelectorAll('.error-selection');
     if (errors.length > 0) {
       errors.forEach((el) => el.remove())
     }
